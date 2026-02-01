@@ -1,27 +1,48 @@
-const recordBtn = document.getElementById("recordBtn");
-const userText = document.getElementById("userText");
-const botText = document.getElementById("botText");
+function startListening() {
+  const status = document.getElementById("status");
+  const answer = document.getElementById("answer");
 
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "en-US";
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
 
-recordBtn.onclick = () => {
+  if (!SpeechRecognition) {
+    status.innerText = "Speech recognition is not supported in this browser.";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
   recognition.start();
-};
 
-recognition.onresult = async (event) => {
-  const transcript = event.results[0][0].transcript;
-  userText.innerText = transcript;
+  status.innerText = "🎧 Listening... Please speak now";
+  answer.innerText = "";
 
-  const response = await fetch("http://127.0.0.1:5000/api/chat", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ question: transcript })
-  });
+  recognition.onresult = async (event) => {
+    const question = event.results[0][0].transcript;
+    status.innerText = "🤔 Thinking...";
 
-  const data = await response.json();
-  botText.innerText = data.answer;
+    try {
+      const res = await fetch("http://localhost:5000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
 
-  const utterance = new SpeechSynthesisUtterance(data.answer);
-  speechSynthesis.speak(utterance);
-};
+      const data = await res.json();
+      answer.innerText = data.answer;
+
+      const speech = new SpeechSynthesisUtterance(data.answer);
+      speech.rate = 1;
+      speech.pitch = 1;
+      speechSynthesis.speak(speech);
+
+      status.innerText = `🗣️ You asked: "${question}"`;
+    } catch (err) {
+      status.innerText = "⚠️ Could not connect to the server.";
+    }
+  };
+
+  recognition.onerror = () => {
+    status.innerText = "❌ I couldn’t hear clearly. Please try again.";
+  };
+}
