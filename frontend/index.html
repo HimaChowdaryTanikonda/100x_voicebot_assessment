@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Voicebot Demo</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<main>
+			<h1>Voicebot — interview-style answers</h1>
+
+			<div id="controls">
+				<button id="recordBtn">Start Recording</button>
+				<button id="stopBtn" disabled>Stop</button>
+			</div>
+
+			<section id="transcript">
+				<h2>Transcript</h2>
+				<div id="question">(press Start and speak)</div>
+			</section>
+
+			<section id="answer">
+				<h2>Answer</h2>
+				<div id="response">(responses will appear here)</div>
+			</section>
+
+			<section id="samples">
+				<h3>Try these</h3>
+				<ul>
+					<li>What should we know about your life story in a few sentences?</li>
+					<li>What’s your #1 superpower?</li>
+					<li>What are the top 3 areas you’d like to grow in?</li>
+					<li>What misconception do your coworkers have about you?</li>
+					<li>How do you push your boundaries and limits?</li>
+				</ul>
+			</section>
+
+			<p class="note">Demo works without an API key. For richer answers, set <code>OPENAI_API_KEY</code> on the backend.</p>
+		</main>
+
+		<script src="script.js"></script>
+	</body>
+</html>
