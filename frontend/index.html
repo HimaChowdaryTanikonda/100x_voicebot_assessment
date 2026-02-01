@@ -2,20 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>100x Voicebot</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>TalkToMe AI</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎙️ 100x AI Voicebot</h1>
 
-  <button id="recordBtn">🎤 Ask a Question</button>
+  <div class="app">
+    <header>
+      <h1>🎤 TalkToMe AI</h1>
+      <p class="tagline">
+        A voice-powered introduction to who I am, how I think, and how I work.
+      </p>
+    </header>
 
-  <p><strong>You said:</strong></p>
-  <p id="userText"></p>
+    <main>
+      <div class="instruction">
+        <p><strong>How it works:</strong></p>
+        <ul>
+          <li>Click the microphone button</li>
+          <li>Ask any question about me</li>
+          <li>Listen to my response</li>
+        </ul>
+      </div>
 
-  <p><strong>Bot says:</strong></p>
-  <p id="botText"></p>
+      <button class="mic-btn" onclick="startListening()">
+        🎙️ Start Talking
+      </button>
+
+      <p id="status" class="status"></p>
+
+      <div class="response-box">
+        <p class="response-title">My Response</p>
+        <p id="answer" class="answer-text"></p>
+      </div>
+
+      <div class="examples">
+        <p class="examples-title">💡 You can ask things like:</p>
+        <ul>
+          <li>“Tell me about yourself”</li>
+          <li>“What are your strengths?”</li>
+          <li>“How do you handle pressure?”</li>
+          <li>“What are your future goals?”</li>
+        </ul>
+      </div>
+    </main>
+
+    <footer>
+      <p>Built with ❤️ using AI & Voice Technology</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
