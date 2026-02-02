@@ -6,7 +6,7 @@ function startListening() {
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    status.innerText = "Speech recognition is not supported in this browser.";
+    status.innerText = "❌ Speech recognition is not supported in this browser.";
     return;
   }
 
@@ -22,23 +22,40 @@ function startListening() {
     status.innerText = "🤔 Thinking...";
 
     try {
-      const res = await fetch("http://localhost:5000/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question })
-      });
+      const res = await fetch(
+        "https://voicebot-assessment.onrender.com/ask",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        }
+      );
+
+      // ✅ NEW: Check response status
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
 
       const data = await res.json();
+
+      if (!data.answer) {
+        throw new Error("No answer received from server");
+      }
+
       answer.innerText = data.answer;
 
       const speech = new SpeechSynthesisUtterance(data.answer);
       speech.rate = 1;
       speech.pitch = 1;
+      speech.lang = "en-US";
       speechSynthesis.speak(speech);
 
       status.innerText = `🗣️ You asked: "${question}"`;
+
     } catch (err) {
-      status.innerText = "⚠️ Could not connect to the server.";
+      console.error(err);
+      status.innerText =
+        "⚠️ Server is waking up or unavailable. Please try again in a few seconds.";
     }
   };
 
