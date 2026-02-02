@@ -23,7 +23,7 @@ function startListening() {
 
     try {
       const res = await fetch(
-        "https://voicebot-assessment.onrender.com/ask",
+        "100xvoicebotassessment-production-40cc.up.railway.app/ask",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -63,3 +63,4 @@ function startListening() {
     status.innerText = "❌ I couldn’t hear clearly. Please try again.";
   };
 }
+
